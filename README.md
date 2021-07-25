@@ -1,26 +1,27 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Azure ARM Template Best Practices](#azure-arm-template-best-practices)
-    - [Official ARM template best practices](#official-arm-template-best-practices)
-    - [ARM template is not immutable, not IaC.](#arm-template-is-not-immutable-not-iac)
-    - [resourceId](#resourceid)
-    - [export template](#export-template)
-    - [Use popular IDE editers](#use-popular-ide-editers)
-    - [Azure templates (PREVIEW)](#azure-templates-preview)
-    - [Azure Blueprint](#azure-blueprint)
-    - [Azure command line - az cli](#azure-command-line---az-cli)
-      - [Dry-run with az cli](#dry-run-with-az-cli)
-    - [Contributing](#contributing)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Azure ARM Template Best Practices
+# Azure ARM Template Best Practices 🌐
 
 [Azure ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) best practices for Mac/Linux users
 
 I am not fan of Microsoft **Powershell**, so this document is for Mac/Linux users.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Official ARM template best practices](#official-arm-template-best-practices)
+- [ARM template is not immutable, not IaC.](#arm-template-is-not-immutable-not-iac)
+- [resourceId](#resourceid)
+- [export template](#export-template)
+- [Use popular IDE editers](#use-popular-ide-editers)
+- [Azure templates (PREVIEW)](#azure-templates-preview)
+- [Azure Blueprint](#azure-blueprint)
+- [Azure command line - az cli](#azure-command-line---az-cli)
+  - [ARM template Dry-run with az cli](#arm-template-dry-run-with-az-cli)
+- [Azure resource group](#azure-resource-group)
+- [Contributing](#contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ### Official ARM template best practices
 
