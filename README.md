@@ -117,7 +117,7 @@ But
 + it doesn't support **latest** version yet
 + Artifacts in Blueprint is ARM template, but Blueprint is not ARM template, so you have to manually combine the Artifact ARM template into blueprint if you do that via az cli
 
-### Azure cli
+### Azure command line - az cli
 
 I am Mac user, anything can be managed by command or SDK, I would like to do that. So [install azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) is what you need
 
