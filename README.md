@@ -108,9 +108,9 @@ Use popular IDE editers, such as VS Code, can save you huge time to deal with th
 
 ref: https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/quickstart-create-templates-use-visual-studio-code?tabs=CLI
 
-### Azure templates (PREVIEW)
+### Azure Templates (PREVIEW)
 
-[ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) is new Azure managed service, still in PREVIEW status currently. At first read from its name, I think it would be matched to AWS Cloudformation template, but it is not. 
+[Azure Templates](https://azure.microsoft.com/en-us/resources/videos/azure-templates-in-the-new-portal/) is new Azure managed service, still in PREVIEW status currently. At first read from its name, I think it would be matched to AWS Cloudformation template, but it is not.
 
 it is closer to AWS Service Catalogs
 
