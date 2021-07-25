@@ -2,6 +2,12 @@
 
 [Azure ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) best practices for Mac/Linux users
 
+### Official ARM template best practices
+
+Go through Azure official ARM template best practices first
+
+https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/best-practices
+
 ### ARM template is not immutable, not IaC.
 
 This is important concept for any thing else. Azure ARM template is not **immutable**, they are not [IaC (infrastructure as code)](https://en.wikipedia.org/wiki/Infrastructure_as_code) at all.
@@ -38,11 +44,11 @@ In above sample,
 + Search the resource type via Google with key word "Azure ARM template subnet", you get this page : https://docs.microsoft.com/en-us/azure/templates/microsoft.network/virtualnetworks/subnets?tabs=json , so the resource type for subnet is **Microsoft.Network/virtualNetworks/subnets**
 + If resource type have n sessions, then in resourceId(), you need provide n-1 parameters.
 
-### export tempalte
+### export template
 
 Azure has feature to export exist resources into ARM template, it makes us easily to prepare the ARM template, but remember, it has a lot of hardcodes, in most case, you can't directly use it if you want to apply it to other subscriptions. 
 
-you have to adjust the templates, some are:
+you need adjust the templates, some are:
 
 + resource location
 
