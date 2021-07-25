@@ -1,23 +1,82 @@
 # Azure ARM Template Best Practices
 
-Azure ARM template best practices for Mac/Linux users
+[Azure ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) best practices for Mac/Linux users
 
 ### ARM template is not immutable, not IaC.
 
 This is important concept for any thing else. Azure ARM template is not **immutable**, they are not [IaC (infrastructure as code)](https://en.wikipedia.org/wiki/Infrastructure_as_code) at all.
 
-I worked on Hashicopy Terraform and AWS Cloudformation template a lot. So when I worked on deploying Azure resource with codes this year, I realized this is a disaster design by someone in Azure, who doesn't have any concepts how Iac and Immutable is important for developer or DevOps.
+I worked on Hashicopy Terraform and AWS Cloudformation template a lot. So when I worked on deploying Azure resources with codes this year, I realized this is a disaster design by someone in Azure, who doesn't have any concepts on how Iac and Immutable are important for developer or DevOps.
 
-The strange design I found until now:
+The strange designs I found until now:
 
-+ ARM template has no state file, so it doesn't care what resources you already have, it just overrides the setting. So that means, 
-- If the resource is not exist, it will create that resource with the setting you put in ARM template. 
-- If the resource is exist, it just overrides the setting, no care what's the original setting on it
-
-+ If you clean some resources and apply this template again, ARM template doesn't delete the cleaned resources. 
++ ARM template has no state file or similar function, so it doesn't care what resources you already have, it just overrides the setting. So that means, 
+  + If the resource is not exist, it will create that resource with the setting you put in ARM template. 
+  + If the resource is exist, it just overrides the setting, no care what's the original setting on it
+  + If you clean some resources and apply this template again, ARM template doesn't delete the cleaned resources. 
+  + If you accidentally apply a totally different template, **but with same template name**, it would not stop you, just create or update the resources in template.
+  + There is no way to reference the resource from output in this ARM template by another ARM template.
 + Its API is slow, sometime takes about 15 minutes to update some configurations. For example, a Virtual Network Gateway. For example, update a resource's tags, still take that long time, because it overrides the whole setting, not just update tags on that resources.
 + the setting in your resources are drafting when the ARM template is still applying. Sometime, this will surprise you. For example, when you apply an update on connection between Virtual Hub/WAN to ExpressRoute circuit. the connection is disappeared in the middle of ARM template updating.  
 
+### resourceId
+
+[resourceId](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template-functions-resource#resourceid) in ARM template is the key concept you need understand. 
+
+```
+# resourceId([subscription_id], [resource_group_name], [resource_type], resource #1, resource #2, and so on if required)
+"[resourceId('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 'otherResourceGroup', 'Microsoft.Storage/storageAccounts','examplestorage')]"
+
+# a real sample
+"[resourceId(parameters('vnet_rg'),'Microsoft.Network/virtualNetworks/subnets', parameters('vnet_name'), 'AzureBastionSubnet')]"
+```
+
+In above sample, 
+
++ If you create/update the resource in same subscription, you don't need provide the subscription in it. 
++ If you create/update the resource in same resource group ( `az <sub_command> --resource-group xxx` ), you don't need provide the resource group in it. 
++ Search the resource type via Google with key word "Azure ARM template subnet", you get this page : https://docs.microsoft.com/en-us/azure/templates/microsoft.network/virtualnetworks/subnets?tabs=json , so the resource type for subnet is **Microsoft.Network/virtualNetworks/subnets**
++ If resource type have n sessions, then in resourceId(), you need provide n-1 parameters.
+
+### export tempalte
+
+Azure has feature to export exist resources into ARM template, it makes us easily to prepare the ARM template, but remember, it has a lot of hardcodes, in most case, you can't directly use it if you want to apply it to other subscriptions. 
+
+you have to adjust the templates, some are:
+
++ resource location
+
+```
+  "parameters": {
+    "location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "string"
+    }
+  },
+  ...
+    "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2020-11-01",
+      "name": "[variables('nsg_name')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": []
+      }
+    },
+    ...
+   ]
+   
+```
+
++ resource name - normally I replace with parameters or variables
++ 
+
+### Use popular IDE editers
+
+Use popular IDE editers, such as VS Code, can save you huge time to deal with the template json file
+
+ref: https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/quickstart-create-templates-use-visual-studio-code?tabs=CLI
 
 ### Azure templates (PREVIEW)
 
