@@ -4,7 +4,7 @@ Azure ARM template best practices for Mac/Linux users
 
 ### ARM template is not immutable, not IaC.
 
-This is important concept for any thing else. Azure ARM template is not immutable, they are not [IaC (infrastructure as code)](https://en.wikipedia.org/wiki/Infrastructure_as_code) at all.
+This is important concept for any thing else. Azure ARM template is not **immutable**, they are not [IaC (infrastructure as code)](https://en.wikipedia.org/wiki/Infrastructure_as_code) at all.
 
 I worked on Hashicopy Terraform and AWS Cloudformation template a lot. So when I worked on deploying Azure resource with codes this year, I realized this is a disaster design by someone in Azure, who doesn't have any concepts how Iac and Immutable is important for developer or DevOps.
 
@@ -21,12 +21,12 @@ The strange design I found until now:
 
 ### Azure templates (PREVIEW)
 
-[ARM templates] is new Azure managed service, still in PREVIEW status currently. At first read from its name, I think it would be matched to AWS Cloudformation template, but it is not. 
+[ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) is new Azure managed service, still in PREVIEW status currently. At first read from its name, I think it would be matched to AWS Cloudformation template, but it is not. 
 
-it is more close to AWS Service Catalogs
+it is closer to AWS Service Catalogs
 
 + It is ARM template
-+ It supports to deploy template to different subscriptions
++ It supports to deploy ARM template to different subscriptions
 
 But it has 
 
@@ -35,7 +35,43 @@ But it has
 + Still no State file or similar functions to record the deployed resources
 + No function to detect the configuration draft
 
+So when you consider this service, be ready for the inconvenience.
+
 ### Azure Blueprint
+
+[Azure Blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/overview) is another type of ARM template
+
++ it supports versioning.
++ it supports to manage blueprint via management groups (I prefer this way) or subscriptions.
++ One blueprint can have multiple Artifacts
+
+But 
++ **Resource groups in Blueprint is totally different concept to Azure Resource groups.** don't mix them.
++ it doesn't support **latest** version yet
++ Artifacts in Blueprint is ARM template, but Blueprint is not ARM template, so you have to manually combine the Artifact ARM template into blueprint if you do that via az cli
+
+### Azure cli
+
+I am Mac user, anything can be managed by command or SDK, I would like to do that. So [install azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) is what you need
+
+```
+# for mac user
+$ brew update && brew install azure-cli
+
+$ az login
+
+$ az account show
+
+# if you want to switch to other scriptions
+$ az account set -s <subscription_name>
+```
+Put this alias your default Shell profile
+
+```
+alias azi='az interactive'
+```
+So you can [run AZ CLI with interactive mode](https://docs.microsoft.com/en-us/cli/azure/interactive-azure-cli) to avoid to rememeber the sub-commands and options.
+
 
 
 
