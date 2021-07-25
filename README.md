@@ -42,11 +42,12 @@ The strange designs I found until now:
   + If the resource is exist, it just overrides the setting, no care what's the original setting on it
   + If you clean some resources and apply this template again, ARM template doesn't delete the cleaned resources. 
   + If you accidentally apply a totally different template, **but with same template name**, it would not stop you, just create or update the resources in template.
-  + There is no way to reference the resource from output in this ARM template by another ARM template.
-+ Its API is slow, sometime takes about 15 minutes or longer to update some configurations.
-  + For example, a Virtual Network Gateway, connection from virtual hub to expressroute circuit, etc.
-  + For example, update a resource's tags, still take long time, because it overrides the whole setting, not just update tags on that resources.
-+ some resources generates service key, such as ExpressRoute Circuit. The service key is an uuid, and you can't define it yourself. Because of that, you can't manage ExpressRoute Circuit with ARM templates for its full setting, if you dry-run the template, it always prompts there is a change about the service key.
++ There is no way to reference resources from another ARM template's output, even it has **output** in its syntax.
++ There is no way to reference resources from another resource in same template, **this is really weird design**. You have to use the way I discuss below, by **resourceId**
++ Azure API is slow, sometime takes about 15 minutes or longer to update some configurations.
+  + For example, set a Virtual Network Gateway, or connection from virtual hub to expressroute circuit, etc.
+  + For example, update a resource's tags, still take long time. Because it overrides the whole setting, not just update tags on that resources (So does it mean Azure API only allows REST API's **POST** and **PUT**, not **PATCH**???)
++ some resources need generate uniq key, such as service key, such as ExpressRoute Circuit. The service key is an uuid, and you can't define it yourself. Because of that, you can't manage ExpressRoute Circuit with ARM templates for its full setting. If you dry-run the template, it always prompts there is a change about the service key.
 + the setting in your resources are drifting when the ARM template is still applying. Sometime, this will surprise you. For example, when you apply an update on connection between Virtual Hub/WAN to ExpressRoute circuit, the connection is disappeared in the middle of ARM template updating, it will finally appear again, if your template has no issue.
 
 ### resourceId
