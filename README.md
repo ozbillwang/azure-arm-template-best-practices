@@ -121,7 +121,7 @@ But it has
 + No version control, so you can't update the templates with incremental versions.
 + No records or logs to trace who used this template to deploy the resources internally. 
 + Still no State file or similar functions to record the deployed resources
-+ No function to detect the configuration draft
++ Still no function to detect the configuration drift
 
 So when you consider this service, be ready for the inconvenience.
 
@@ -129,18 +129,18 @@ So when you consider this service, be ready for the inconvenience.
 
 [Azure Blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/overview) is another type of ARM template
 
-+ it supports versioning.
-+ it supports to manage blueprint via management groups (I prefer this way) or subscriptions.
++ It supports versioning.
++ It supports to manage blueprint via management groups (I prefer this way) or subscriptions.
 + One blueprint can have multiple Artifacts
 
 But 
 + **Resource groups in Blueprint is totally different concept to Azure Resource groups.** don't mix them.
-+ it doesn't support **latest** version yet
++ It doesn't support **latest** version yet
 + Artifacts in Blueprint is ARM template, but Blueprint is not ARM template, so you have to manually combine the Artifact ARM template into blueprint if you do that via az cli
 
 ### Azure command line - az cli
 
-I am Mac user, anything can be managed by command or SDK, I would like to do that. So [install azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) is what you need
+I am Mac user, anything can be managed by command or SDK, I would like to deploy ARM template via az cli. So [install azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) is what you need
 
 ```
 # for mac user
@@ -160,7 +160,7 @@ alias azi='az interactive'
 ```
 So you can [run AZ CLI with interactive mode](https://docs.microsoft.com/en-us/cli/azure/interactive-azure-cli) to avoid to rememeber the sub-commands and options.
 
-#### Dry-run with az cli
+#### ARM template Dry-run with az cli
 
 az cli support dry-run option ( **what-if** ) when you deploy ARM template, smartly use it.
 
@@ -217,7 +217,13 @@ fi
 ${AZCLI} --resource-group "${resourceGroup}" \
   --name "${name}" --template-file "${templateFile}" --parameters @${parameterFile}
 ```
+### Azure resource group
 
+Azure resource group is the important difference if compare with AWS.
+
++ Recommend to create ARM template in a new resource group always. One template in one resource group.
++ Recommand to use template name as resource name, so you can easily match them.
++ You can easily clean them by delete resource group, more then delete them one by one
 
 ### Contributing
 
