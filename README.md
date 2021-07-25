@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Azure ARM Template Best Practices](#azure-arm-template-best-practices)
+    - [Official ARM template best practices](#official-arm-template-best-practices)
+    - [ARM template is not immutable, not IaC.](#arm-template-is-not-immutable-not-iac)
+    - [resourceId](#resourceid)
+    - [export template](#export-template)
+    - [Use popular IDE editers](#use-popular-ide-editers)
+    - [Azure templates (PREVIEW)](#azure-templates-preview)
+    - [Azure Blueprint](#azure-blueprint)
+    - [Azure command line - az cli](#azure-command-line---az-cli)
+      - [Dry-run with az cli](#dry-run-with-az-cli)
+    - [Contributing](#contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Azure ARM Template Best Practices
 
 [Azure ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) best practices for Mac/Linux users
@@ -139,6 +157,77 @@ alias azi='az interactive'
 ```
 So you can [run AZ CLI with interactive mode](https://docs.microsoft.com/en-us/cli/azure/interactive-azure-cli) to avoid to rememeber the sub-commands and options.
 
+#### Dry-run with az cli
+
+az cli support dry-run option ( **what-if** ) when you deploy ARM template, smartly use it.
+
+Here I give you code for reference on how easily manage the ARM template by az cli
+
+- create resource group if not exist
+- have option to dry-run or apply the ARM template.
+
+```
+$ cat deploy.sh
+
+#!/usr/bin/env bash
+
+usage()
+{
+    echo "usage: $0 [resource_group_name] [location] [template_name] [template_file_name] [parameter_file_name] (plan|apply)"
+}
+
+if [ "$#" -eq "0" ]; then
+  echo "missing parameters, exit ..."
+  usage
+  exit 1
+fi
+
+resourceGroup="$1"
+location="$2"
+name="$3"
+templateFile="$4"
+parameterFile="$5"
+dryRun="${6:-plan}"
+
+case ${dryRun} in
+  plan)
+    echo "ARM Dry run"
+    AZCLI="az deployment group what-if"
+    ;;
+  apply)
+    echo "ARM Deployment"
+    AZCLI="az deployment group create"
+    ;;
+  *)
+    echo "wrong option, exit ..."
+    usage
+    exit 1
+esac
 
 
+resourceGroupStatus=$(az group list --query "[?name=='${resourceGroup}']" --output tsv)
 
+if [ -z "${resourceGroupStatus}" ]; then
+  az group create --name ${resourceGroup} --location ${location}
+fi
+
+${AZCLI} --resource-group "${resourceGroup}" \
+  --name "${name}" --template-file "${templateFile}" --parameters @${parameterFile}
+```
+
+
+### Contributing
+
+* Update [README.md](README.md)
+* install [doctoc](https://github.com/thlorenz/doctoc)
+
+```
+sudo npm install -g doctoc
+```
+
+* update README
+
+```
+doctoc --github README.md
+```
+* commit the update and raise pull request for reviewing.
