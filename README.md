@@ -65,8 +65,8 @@ In above sample,
 
 + If you create/update the resource in same subscription, you don't need provide the subscription in it. 
 + If you create/update the resource in same resource group ( `az <sub_command> --resource-group xxx` ), you don't need provide the resource group in it. 
-+ Search the resource type via Google with key word "Azure ARM template subnet", you get this page : https://docs.microsoft.com/en-us/azure/templates/microsoft.network/virtualnetworks/subnets?tabs=json , so the resource type for subnet is **Microsoft.Network/virtualNetworks/subnets**
-+ If resource type have n sessions, then in resourceId(), you need provide n-1 parameters.
++ For example, Search the resource type via Google with key word "Azure ARM template subnet", you get this page : https://docs.microsoft.com/en-us/azure/templates/microsoft.network/virtualnetworks/subnets?tabs=json , so the resource type for subnet is **Microsoft.Network/virtualNetworks/subnets**
++ If resource type have **n** sessions, then in resourceId(), you need provide **n-1** parameters.
 
 ### export template
 
