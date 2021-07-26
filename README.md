@@ -33,7 +33,7 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/best-pra
 
 This is important concept for any thing else. Azure ARM template is not **immutable**, they are not [IaC (infrastructure as code)](https://en.wikipedia.org/wiki/Infrastructure_as_code) at all.
 
-I worked on [Hashicopy Terraform](https://www.terraform.io/) and [AWS Cloudformation template](https://aws.amazon.com/cloudformation/) a lot. So when I worked on deploying Azure resources with codes this year, I realized this is a disaster design by someone in Azure, who doesn't have any concepts on how infrastructure as code and Immutable are important for developer or DevOps.
+I worked on [Hashicopy Terraform](https://www.terraform.io/) and [AWS Cloudformation template](https://aws.amazon.com/cloudformation/) a lot. So when I worked on deploying Azure resources with codes this year, I realized this is a disaster design by someone in Azure, who doesn't have any concepts on how infrastructure as code and Immutable look like, and don't know how important for developer or DevOps.
 
 The strange designs I found until now:
 
