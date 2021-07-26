@@ -41,7 +41,7 @@ The strange designs I found until now:
   + If the resource is not exist, it will create that resource with the setting you put in ARM template. 
   + If the resource is exsit, with same setting, it will ignore to update it.
   + If the resource is exist, with changes, it just overrides the whole setting on that resource, no care what's the original setting on it
-  + If you clean some resources and apply this template again, ARM template doesn't delete the cleaned resources. 
+  + If you remove some resources in the template and apply it again, ARM template doesn't delete the cleaned resources in your subscription. 
   + If you accidentally apply a totally different template, **but with same template name**, it would not stop you, just create or update the resources in template.
 + There is no way to reference resources from another ARM template's output, even it has **output** in its syntax.
 + There is no way to reference resources from another resource in same template, **this is really weird design**. You have to use the way I discuss below, by **resourceId**
