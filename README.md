@@ -39,7 +39,8 @@ The strange designs I found until now:
 
 + ARM template has no state file or similar function, so it doesn't care what resources you already have, it just overrides the setting. So that means, 
   + If the resource is not exist, it will create that resource with the setting you put in ARM template. 
-  + If the resource is exist, it just overrides the setting, no care what's the original setting on it
+  + If the resource is exsit, with same setting, it will ignore to update it.
+  + If the resource is exist, with changes, it just overrides the whole setting on that resource, no care what's the original setting on it
   + If you clean some resources and apply this template again, ARM template doesn't delete the cleaned resources. 
   + If you accidentally apply a totally different template, **but with same template name**, it would not stop you, just create or update the resources in template.
 + There is no way to reference resources from another ARM template's output, even it has **output** in its syntax.
