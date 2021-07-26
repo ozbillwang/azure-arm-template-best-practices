@@ -1,6 +1,6 @@
 # Azure ARM Template Best Practices 🌐
 
-[Azure ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) best practices for Mac/Linux users
+[Azure Resource manager (ARM) template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) best practices for Mac/Linux users
 
 I am not fan of Microsoft **Powershell**, so this document is for Mac/Linux users.
 
